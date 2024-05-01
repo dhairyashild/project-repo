@@ -37,13 +37,14 @@ pipeline {
 
         stage('ecr push') {
             steps {
+                   dir ('/home/ubuntu/jenkins/workspace/springboot-project-pipeline-code/springboot-java-poject') {
                 sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8y1d3c0'
                 sh 'docker build -t spring-app .'
                 sh 'docker tag spring-app:latest public.ecr.aws/d8y1d3c0/spring-app:latest'
                 sh 'docker push public.ecr.aws/d8y1d3c0/spring-app:latest'
+                }
             }
         }
-
         stage("terraform init") {
             steps {
                 dir ('continuous-deployment') {
