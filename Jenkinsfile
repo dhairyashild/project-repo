@@ -71,7 +71,7 @@ pipeline {
           
         stage("terraform apply") {
             steps {
-                dir ('CONTINEOUS-DEPLOYMENT') {
+                dir ('continuous-deployment') {
                     sh 'terraform apply --auto-approve'
                 }
             }
