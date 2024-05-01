@@ -31,8 +31,8 @@ checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs:
             steps {
               sh '''mvn clean verify sonar:sonar \
   -Dsonar.projectKey=springboot-project-pipeline-code \
-  -Dsonar.host.url=http://52.66.197.219:9000 \
-  -Dsonar.login=sqp_301a5ec1a74ece60154cffdba037544a0ebc0671'''    
+  -Dsonar.host.url=http://13.234.225.243:9000 \
+  -Dsonar.login=sqp_c378ae31f91a98ef8ca61933d285a101853c6769'''    
                 }
                     
                 }
