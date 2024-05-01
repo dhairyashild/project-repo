@@ -77,6 +77,18 @@ pipeline {
             }
         } 
 
+ stage("terraform destroy") {
+            steps {
+                dir ('continuous-deployment') {
+                    sh 'terraform destroy --auto-approve'
+                }
+            }
+        } 
+
+
+
+        
+
         stage("set context") {
             steps {
                 sh 'aws eks update-kubeconfig --region ap-south-1 --name my-cluster'
