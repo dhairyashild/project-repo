@@ -14,7 +14,8 @@ pipeline {
     stages {
         stage("clone") {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/dhairyashild/project-repo.git']])            }
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/dhairyashild/project-repo.git']])
+            }
         }
         stage("build") {
             steps {
@@ -27,21 +28,21 @@ pipeline {
         stage("sonar") {
             steps {
                 dir ('/home/ubuntu/jenkins/workspace/springboot-project-pipeline-code/springboot-java-poject') {
-                sh '''mvn clean verify sonar:sonar \
-                    -Dsonar.projectKey=springboot-project-pipeline-code \
-                    -Dsonar.host.url=http://13.234.225.243:9000 \
-                    -Dsonar.login=sqp_c378ae31f91a98ef8ca61933d285a101853c6769'''
-                    }
+                    sh '''mvn clean verify sonar:sonar \
+                        -Dsonar.projectKey=springboot-project-pipeline-code \
+                        -Dsonar.host.url=http://13.234.225.243:9000 \
+                        -Dsonar.login=sqp_c378ae31f91a98ef8ca61933d285a101853c6769'''
                 }
+            }
         }
 
         stage('ecr push') {
             steps {
-                   dir ('/home/ubuntu/jenkins/workspace/springboot-project-pipeline-code/springboot-java-poject') {
-                sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8y1d3c0'
-                sh 'docker build -t spring-app .'
-                sh 'docker tag spring-app:latest public.ecr.aws/d8y1d3c0/spring-app:latest'
-                sh 'docker push public.ecr.aws/d8y1d3c0/spring-app:latest'
+                dir ('/home/ubuntu/jenkins/workspace/springboot-project-pipeline-code/springboot-java-poject') {
+                    sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8y1d3c0'
+                    sh 'docker build -t spring-app .'
+                    sh 'docker tag spring-app:latest public.ecr.aws/d8y1d3c0/spring-app:latest'
+                    sh 'docker push public.ecr.aws/d8y1d3c0/spring-app:latest'
                 }
             }
         }
@@ -77,17 +78,7 @@ pipeline {
             }
         } 
 
- stage("terraform destroy") {
-            steps {
-                dir ('continuous-deployment') {
-                    sh 'terraform destroy --auto-approve'
-                }
-            }
-        } 
-
-
-
-        
+      
 
         stage("set context") {
             steps {
@@ -114,6 +105,13 @@ pipeline {
                 sh 'kubectl get deployment -n kube-system aws-load-balancer-controller'
                 sh 'kubectl apply -f kubernates_manifest'
             }
-        } 
+        }
+         // stage("terraform destroy") {
+        //     steps {
+        //         dir ('continuous-deployment') {
+        //             sh 'terraform destroy --auto-approve'
+        //         }
+        //     }
+        // } 
     }
 }
