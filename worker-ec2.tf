@@ -21,13 +21,13 @@ sudo apt-get install openjdk-17-jdk -y
 
 # Download SonarQube zip file
 cd /opt/sonarqube
-wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.4.87374.zip
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.4.87374.zip
 
 # Install unzip utility
 sudo apt-get install unzip -y
 
 # Unzip SonarQube zip file
-unzip sonarqube-9.9.4.87374.zip
+sudo unzip sonarqube-9.9.4.87374.zip
 # Remove the zip file after extraction
 rm sonarqube-9.9.4.87374.zip
 
